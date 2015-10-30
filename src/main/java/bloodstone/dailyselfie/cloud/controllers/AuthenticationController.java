@@ -2,6 +2,7 @@ package bloodstone.dailyselfie.cloud.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,7 @@ public class AuthenticationController {
 	private String[] users = new String[] { "user1@user.com", "user2@user.com", "user3@user.com" };
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody LoginResponse login(@RequestParam String userName, @RequestParam String password) {
+	public @ResponseBody LoginResponse login(@RequestHeader String userName, @RequestHeader String password) {
 		LoginResponse response = new LoginResponse();
 		if (userName != null && password != null) {
 			for (int i = 0; i < users.length; i++) {
