@@ -1,5 +1,10 @@
 package bloodstone.dailyselfie.cloud.controllers;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -7,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import bloodstone.dailyselfie.cloud.model.LoginResponse;
 import bloodstone.dailyselfie.cloud.model.UserRegistration;
@@ -44,5 +50,20 @@ public class AuthenticationController {
 			}
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/applyeffect", method=RequestMethod.POST)
+	public @ResponseBody File applyEffect(@RequestParam("type") int effectType,@RequestParam("file") MultipartFile file){
+		try {
+		        byte[] bytes = file.getBytes();
+		        File temp=new File(file.getName());
+		        BufferedOutputStream stream =
+		                new BufferedOutputStream(new FileOutputStream(temp));
+		        stream.write(bytes);
+		        stream.close();
+		        return temp;
+		    } catch (Exception e) {
+		        return null;
+		    }
 	}
 }
