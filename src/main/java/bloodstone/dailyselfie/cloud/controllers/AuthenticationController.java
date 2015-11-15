@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import bloodstone.dailyselfie.cloud.model.LoginResponse;
 import bloodstone.dailyselfie.cloud.model.UserRegistration;
+import bloodstone.dailyselfie.cloud.util.ImageUtils;
 
 @Controller
 public class AuthenticationController {
@@ -61,7 +62,13 @@ public class AuthenticationController {
 		                new BufferedOutputStream(new FileOutputStream(temp));
 		        stream.write(bytes);
 		        stream.close();
-		        return temp;
+		        File newFile=ImageUtils.applyTint(temp, 100);
+		        /*BufferedOutputStream tintStream =
+		                new BufferedOutputStream(new FileOutputStream(newFile));
+		        byte[] tintBytes = newFile.getBytes();
+		        tintStream.write(tintBytes);
+		        tintStream.close();*/
+		        return newFile;
 		    } catch (Exception e) {
 		        return null;
 		    }
