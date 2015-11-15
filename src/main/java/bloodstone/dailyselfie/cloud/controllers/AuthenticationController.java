@@ -62,12 +62,16 @@ public class AuthenticationController {
 		                new BufferedOutputStream(new FileOutputStream(temp));
 		        stream.write(bytes);
 		        stream.close();
-		        File newFile=ImageUtils.applyTint(temp, 100);
-		        /*BufferedOutputStream tintStream =
-		                new BufferedOutputStream(new FileOutputStream(newFile));
-		        byte[] tintBytes = newFile.getBytes();
-		        tintStream.write(tintBytes);
-		        tintStream.close();*/
+		        File newFile=null;
+		        if(effectType==1){
+		        	newFile=ImageUtils.applyTint(temp, 50);	
+		        }else if(effectType==2){
+		        	newFile=ImageUtils.applyEffect(temp, 128);
+		        }else if(effectType==3){
+		        	newFile=ImageUtils.applyBlackWhiteEffect(temp, 128);
+		        }
+		        
+		        
 		        return newFile;
 		    } catch (Exception e) {
 		        return null;
