@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 
 public class ImageUtils {
 
-	public static File applyTint(File file, int adjustmentValue) throws IOException {
+	public static File applyTint(String userId, File file, int adjustmentValue) throws IOException {
 		BufferedImage image = ImageIO.read(file);
 		BufferedImage tint = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 
@@ -30,12 +31,13 @@ public class ImageUtils {
 				tint.setRGB(i, j, tintColor.getRGB());
 			}
 		}
-		File imageFile = new File(file.getName() + "mod.jpg");
+		String fileName=userId+"_"+String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
+		File imageFile = new File(fileName);
 		ImageIO.write(tint, "JPEG", imageFile);
 		return imageFile;
 	}
 
-	public static File applyEffect(File file,int threshold) throws IOException {
+	public static File applyEffect(String userId, File file,int threshold) throws IOException {
 		BufferedImage image = ImageIO.read(file);
 		BufferedImage effectImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TRANSLUCENT);
 
@@ -58,12 +60,13 @@ public class ImageUtils {
 
 		}
 		
-		File imageFile = new File(file.getName() + "mod.PNG");
+		String fileName=userId+"_"+String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
+		File imageFile = new File(fileName);
 		ImageIO.write(effectImage, "JPEG", imageFile);
 		return imageFile;
 	}
 	
-	public static File applyBlackWhiteEffect(File file,int threshold) throws IOException {
+	public static File applyBlackWhiteEffect(String userId, File file,int threshold) throws IOException {
 		BufferedImage image = ImageIO.read(file);
 		BufferedImage effectImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 
@@ -83,7 +86,8 @@ public class ImageUtils {
 
 		}
 		
-		File imageFile = new File(file.getName() + "mod.jpg");
+		String fileName=userId+"_"+String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
+		File imageFile = new File(fileName);
 		ImageIO.write(effectImage, "JPEG", imageFile);
 		return imageFile;
 	}

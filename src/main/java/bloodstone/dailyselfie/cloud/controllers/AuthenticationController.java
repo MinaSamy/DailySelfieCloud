@@ -54,7 +54,7 @@ public class AuthenticationController {
 	}
 	
 	@RequestMapping(value="/applyeffect", method=RequestMethod.POST)
-	public @ResponseBody File applyEffect(@RequestParam("type") int effectType,@RequestParam("file") MultipartFile file){
+	public @ResponseBody File applyEffect(@RequestParam("userid") String userId, @RequestParam("type") int effectType,@RequestParam("file") MultipartFile file){
 		try {
 		        byte[] bytes = file.getBytes();
 		        File temp=new File(file.getName());
@@ -64,11 +64,11 @@ public class AuthenticationController {
 		        stream.close();
 		        File newFile=null;
 		        if(effectType==1){
-		        	newFile=ImageUtils.applyTint(temp, 50);	
+		        	newFile=ImageUtils.applyTint(userId, temp, 50);	
 		        }else if(effectType==2){
-		        	newFile=ImageUtils.applyEffect(temp, 128);
+		        	newFile=ImageUtils.applyEffect(userId, temp, 128);
 		        }else if(effectType==3){
-		        	newFile=ImageUtils.applyBlackWhiteEffect(temp, 128);
+		        	newFile=ImageUtils.applyBlackWhiteEffect(userId,temp, 128);
 		        }
 		        
 		        
