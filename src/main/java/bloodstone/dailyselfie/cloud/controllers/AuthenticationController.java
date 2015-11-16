@@ -4,10 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
@@ -104,16 +100,7 @@ public class AuthenticationController {
 		    }
 	}
 	
-	@ResponseBody
-    @RequestMapping(value="/getImage", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getImage(@RequestParam("file") MultipartFile file) throws IOException {
-		
-		
-        //File imageFile = new File( "/tmp/kitten.png" );
-        //byte[] byteArray = IOUtils.toByteArray( new FileInputStream( imageFile ) );
-        byte[] byteArray=file.getBytes();
-        return byteArray;
-    }
+	
 
 	
 }
