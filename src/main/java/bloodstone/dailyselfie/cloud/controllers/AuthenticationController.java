@@ -2,9 +2,15 @@ package bloodstone.dailyselfie.cloud.controllers;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,6 +28,7 @@ import bloodstone.dailyselfie.cloud.util.ImageUtils;
 public class AuthenticationController {
 
 	private String[] users = new String[] { "user1@user.com", "user2@user.com", "user3@user.com" };
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody LoginResponse login(@RequestHeader String userName, @RequestHeader String password) {
@@ -53,8 +60,9 @@ public class AuthenticationController {
 		return result;
 	}
 	
-	@RequestMapping(value="/applyeffect", method=RequestMethod.POST)
-	public @ResponseBody File applyEffect(@RequestParam("userid") String userId, @RequestParam("type") int effectType,@RequestParam("file") MultipartFile file){
+	@RequestMapping(value="/applyeffect", method=RequestMethod.POST,produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public @ResponseBody byte[] applyEffect(@RequestParam("userid") String userId, @RequestParam("type") int effectType,@RequestParam("file") MultipartFile file){
+		
 		try {
 		        byte[] bytes = file.getBytes();
 		        File temp=new File(file.getName());
@@ -72,9 +80,40 @@ public class AuthenticationController {
 		        }
 		        
 		        
-		        return newFile;
+		        
+		        //java.nio.file.Path p= Paths.get(newFile.toURI());
+		       
+		        /*FileInputStream input=new FileInputStream(newFile);
+		        response.setContentType("image/jpg");
+		        response.setContentLength(42707);
+		        response.getOutputStream().write(IOUtils.toByteArray(input));*/
+		       
+		        
+		        FileInputStream input=new FileInputStream(newFile);
+		        byte[]data=IOUtils.toByteArray(input);
+		        
+		        /*File ff=new File("D:/selfy/test.jpg");
+		        FileOutputStream out=new FileOutputStream(ff);
+		        out.write(data, 0, data.length);
+		        out.close();*/
+		        return data;
+		       
 		    } catch (Exception e) {
+		    	System.out.println(e.toString());
 		        return null;
 		    }
 	}
+	
+	@ResponseBody
+    @RequestMapping(value="/getImage", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getImage(@RequestParam("file") MultipartFile file) throws IOException {
+		
+		
+        //File imageFile = new File( "/tmp/kitten.png" );
+        //byte[] byteArray = IOUtils.toByteArray( new FileInputStream( imageFile ) );
+        byte[] byteArray=file.getBytes();
+        return byteArray;
+    }
+
+	
 }

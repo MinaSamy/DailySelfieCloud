@@ -61,6 +61,7 @@ public class ImageUtils {
 		}
 		
 		String fileName=userId+"_"+String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
+		//File imageFile = new File("D:/testfiles/"+fileName);
 		File imageFile = new File(fileName);
 		ImageIO.write(effectImage, "JPEG", imageFile);
 		return imageFile;
